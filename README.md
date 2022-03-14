@@ -1,7 +1,8 @@
 # LuckyLauncher by Seeroy
 Launcher, created on Electron using modded [Minecraft Launcher Core](https://github.com/Pierce01/MinecraftLauncher-core)
 
-Tested working versions:
+# Minecraft versions
+Tested, working:
  - All vanilla versions, presented in launcher
  - Forge 1.6.4
  - Forge 1.7.2
@@ -33,7 +34,7 @@ Tested, not working:
 
 Other versions not tested
 
-Features:
+# Features
  - Good material design and animations
  - Auto-downloading all files
  - Forge and OptiFine auto-install
@@ -41,3 +42,16 @@ Features:
  - Servers list
  - Cracked/Mojang account can be used
 
+# Installation from sources
+```
+git clone https://github.com/Seeroy/luckylauncher
+npm install
+npm start
+```
+
+# Build from sources
+```
+git clone https://github.com/Seeroy/luckylauncher
+npm install
+npm run build
+```
