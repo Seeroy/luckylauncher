@@ -1,0 +1,1168 @@
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<script src="js/my_func.js"></script>
+
+<div id="vanta-bg"></div>
+
+<div class="props-modal" style="display: none;">
+  <p class="fs-1">Настройки</p>
+  <div class="pcontent">
+    <div class="d-flex flex-column align-items-stretch" style="height: 85%;">
+      <div class="flex-fill ">
+        <!-- Tabs navs -->
+        <ul class="nav nav-tabs nav-justified mb-3" id="ex1" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="ex3-tab-1" data-mdb-toggle="tab" href="#ex3-tabs-1" role="tab"
+              aria-controls="ex3-tabs-1" aria-selected="true">Запуск и память</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="ex3-tab-2" data-mdb-toggle="tab" href="#ex3-tabs-2" role="tab"
+              aria-controls="ex3-tabs-2" aria-selected="false">Лаунчер</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="ex3-tab-3" data-mdb-toggle="tab" href="#ex3-tabs-3" role="tab"
+              aria-controls="ex3-tabs-3" aria-selected="false">Персонализация</a>
+          </li>
+        </ul>
+        <!-- Tabs navs -->
+
+        <!-- Tabs content -->
+        <div class="tab-content" id="ex2-content">
+          <div class="tab-pane fade show active" id="ex3-tabs-1" role="tabpanel" aria-labelledby="ex3-tab-1"
+            style="overflow: auto;">
+            <div class="d-flex justify-content-center align-items-center">
+              <div>Выделение памяти (Xmx)</div>
+              <div class="flex-fill" style="margin-left: 24px;">
+                <input type="number" id="ramInput" class="form-control" min=512 step=512 placeholder="Мбайт" />
+              </div>
+            </div>
+            <div class="d-flex justify-content-center align-items-center" style="margin-top: 10px;">
+              <div>Минимальное кол-во памяти (Xms)</div>
+              <div class="flex-fill" style="margin-left: 24px;">
+                <input type="number" id="minRamInput" class="form-control" min=128 step=128 placeholder="Мбайт" />
+              </div>
+            </div>
+            <div class="d-flex justify-content-center align-items-center" style="margin-top: 10px;">
+              <div>Путь к JAVA</div>
+              <div class="flex-fill" style="margin-left: 24px;">
+                <input type="text" id="javaPathInput" class="form-control" placeholder="Путь" />
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="ex3-tabs-2" role="tabpanel" aria-labelledby="ex3-tab-2"
+            style="overflow: auto;">
+            Tab 2 content
+          </div>
+          <div class="tab-pane fade" id="ex3-tabs-3" role="tabpanel" aria-labelledby="ex3-tab-3"
+            style="overflow: auto;">
+            <div class="d-flex justify-content-center align-items-center">
+              <div>Задний фон лаунчера</div>
+              <div class="flex-fill" style="margin-left: 24px;">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="bgLauncherMode" id="bgLauncherMode1"
+                    value="whitescreen" checked />
+                  <label class="form-check-label" for="bgLauncherMode1"> Белый фон </label>
+                </div>
+
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="bgLauncherMode" id="bgLauncherMode2"
+                    value="animation" />
+                  <label class="form-check-label" for="bgLauncherMode2"> Анимационный эффект </label>
+                  <select>
+                    <option value="birds">Птицы</option>
+                    <option value="particles">Паутина</option>
+                    <option value="dots">Точки</option>
+                  </select>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Tabs content -->
+      </div>
+      <div><button class="btn btn-primary btn-lg" id="savebtn">Сохранить</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="animate__animated animate__slideInLeft animate__fast navigation"
+    style="background: rgba(255,255,255,0.8);">
+    <ul class="styled">
+      <li class="logo">
+        <img alt="" src="assets/luckylauncher_logo.png" width=32>
+      </li>
+
+      <li class="selected" data-form="home"><span class="material-icons">space_dashboard</span></li>
+      <li title="Настройки" data-form="settings"><span class="material-icons">settings</span></li>
+    </ul>
+    <div class="usernav-cont">
+      <div class="btn-group mb-2 dropup">
+        <div class="usernav-box profile-evnt dropdown-toggle" data-mdb-toggle="dropdown" aria-expanded="false"><img
+            alt="" class="circle" src="https://minotar.net/avatar/Steve/38" width=38 height=38></div>
+        <ul class="dropdown-menu" style="z-index: 235;">
+          <li><a class="dropdown-item disabled fs-6 text-black" id="drop-nickname"></a></li>
+          <li><a class="dropdown-item text-danger" id="drop-exitfromacc">Выйти</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="content animate__animated animate__fadeIn" id="inshere">
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper"></div>
+    </div>
+  </div>
+  <div class="bottom-content animate__animated animate__fadeInUp" style="background: rgba(255,255,255,0.8);">
+    <div class="h-100 w-100 d-inline-flex justify-content-center align-items-center">
+      <div class="flex-fill">
+        <div class="btn-group mb-2 dropup" style="margin: 0 !important;">
+          <button type="button" class="styled dropdown-toggle" data-mdb-toggle="dropdown" aria-expanded="false">
+            Dropup
+          </button>
+          <ul class="dropdown-menu" style="overflow-y: scroll !important; height: 250px; width: 100%;"></ul>
+        </div>
+      </div>
+      <div>
+        <button class="btn btn-primary btn-lg">Играть</button>
+      </div>
+    </div>
+    <div class="ms-c" style="display: none;">
+      <div class="mc-icon"><img src="assets/blocks/gold_ore_big.webp" height=64></div>
+      <div class="mc-name fs-3">Minecraft 1.7.10</div>
+      <div class="mc-desc"><span></span>
+        <div class="progress">
+          <div id="downloadpbar" class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0"
+            aria-valuemax="100" style="width: 75%;"></div>
+        </div>
+      </div>
+      <div class="mc-others">
+        <div class="d-inline-flex justify-content-center align-items-center">
+          <button class="btn btn-dark" onclick='require("electron").ipcRenderer.send("createConsole");'><span
+              class="material-icons-outlined" style="font-family: 'Material Icons';">terminal</span></button>
+          <button class="btn btn-danger">Убить игру</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/swiper-bundle.min.js"></script>
+
+<style>
+  .swiper {
+    width: 840px;
+    height: 96px;
+  }
+
+  .swiper-slide {
+    background: rgb(235, 235, 235);
+    padding: 6px 24px;
+    border-radius: 10px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    background-repeat: repeat-x;
+    background-image: url("assets/wave.svg");
+  }
+
+  .news-c {
+    display: grid;
+    grid-template-columns: 64px 1fr max-content;
+    grid-template-rows: max-content 1fr;
+    gap: 0em 2em;
+    grid-auto-flow: row;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+    grid-template-areas:
+      "news-icon news-name news-others"
+      "news-icon news-desc news-others";
+    width: 100%;
+    height: 100%;
+    padding: 6px 24px;
+  }
+
+  .news-icon {
+    grid-area: news-icon;
+    color: black;
+  }
+
+  .news-name {
+    justify-self: start;
+    align-self: center;
+    grid-area: news-name;
+    color: black;
+  }
+
+  .news-desc {
+    justify-self: stretch;
+    align-self: stretch;
+    grid-area: news-desc;
+    color: black;
+  }
+
+  .news-others {
+    grid-area: news-others;
+  }
+</style>
+
+<script>
+  var ctheme;
+  var currentBgMode;
+  var gameTime;
+  var gameTimeUpdater;
+  var lastStatus;
+  const fs = require("fs");
+  var MD5 = require("crypto-js/md5");
+  const openn = require('open');
+  const os = require("os");
+  const https = require("https");
+  const http = require("http");
+
+  $.ajaxSetup({
+    cache: false
+  });
+  $(document).ready(function () {
+    totalRAM = require('os').totalmem();
+    totalRAM = Math.round(totalRAM / (1024 * 1024));
+    $("#ramInput").attr("max", totalRAM);
+    db.get('gameSettings__maxMemory', function (err, value) {
+      if (err) {
+        console.log("DB ERROR:", err);
+      } else {
+        $("#ramInput").attr("value", value);
+      }
+    });
+
+    db.get('gameSettings__minMemory', function (err, value) {
+      if (err) {
+        if (err.name == "NotFoundError") {
+          console.log("DB ERROR:", err);
+        }
+      } else {
+        $("#minRamInput").attr("value", value);
+      }
+    });
+
+    db.get('gameSettings__javaPath', function (err, value) {
+      if (err) {
+        if (err.name == "NotFoundError") {
+          console.log("DB ERROR:", err);
+        }
+      } else {
+        $("#javaPathInput").attr("value", value);
+      }
+    });
+    /*$.get("https://api.github.com/repos/Seeroy/kubek-minecraft-dashboard/releases", function (upd) {
+      last_upd = upd[0];
+      myversion = require('electron').ipcRenderer.sendSync("launcherVersion");
+      if (last_upd.tag_name != myversion) {
+        showMessage("Обновление " + upd[2].tag_name, "<p style='color: gray;''>Доступно обновление до версии " +
+          upd[2].tag_name + "</p><a href='#' class='text-decoration-none' onclick=openn('" + upd[2].assets[0]
+          .browser_download_url + "')>Перейти</a>", "Спасибо");
+      }
+    });*/
+    $.get(
+      "https://api.vk.com/method/wall.get?owner_id=-198349906&v=5.81&filter=all&domain=flantmc&access_token=0c72166d0c72166d0c72166d4f0c02f7db00c720c72166d52ff9408832fab1d1b0a4601",
+      function (posts) {
+        posts.response.items.forEach(function (post) {
+          text = post.text;
+          date = post.date;
+          $(".swiper-wrapper").append(
+            '<div class="swiper-slide"><div class="news-c"><div class="news-icon"><span class="material-icons" style="color: rgb(120,120,120); font-size: 48px;">newspaper</span></div><div class="news-name fs-3">Новость от ' +
+            date + '</div><div class="news-desc text-truncate" style="width: 70%;">' + text +
+            '</div><div class="news-others"><button class="btn btn-secondary" onclick=openn("' +
+            "https://vk.com/lucky_launcher?w=wall-198349906_" + post.id +
+            '")>Читать полностью</button></div></div></div>'
+          );
+        });
+        var swiper = new Swiper(".mySwiper", {
+          slidesPerView: 1,
+          spaceBetween: 24
+        });
+      });
+    require('electron').ipcRenderer.sendSync("focusFix");
+
+    require('electron').ipcRenderer.on('downloadProgress', (event, message) => {
+      console.log(message.status);
+      if (message.status == "downloading") {
+        if ($(".ms-c").css("display") == "none") {
+          $(".bottom-content .d-inline-flex.h-100").fadeOut(200, function () {
+            $(".ms-c").fadeIn(200);
+          });
+        }
+        if (message.full__progress != "" && message.full__total != "") {
+          perc = Math.round((message.full__progress / message.full__total) * 100);
+        } else {
+          perc = Math.round((message.cur__progress / message.cur__total) * 100);
+        }
+        perc_cur = Math.round((message.cur__progress / message.cur__total) * 100);
+        $("#downloadpbar").css("width", perc + "%");
+        $("#downloadpbar").prop("aria-valuenow", perc);
+        $(".mc-desc span").html("Скачивание " + message.cur__name + " (" + perc + "%)");
+      } else if (message.status == "starting") {
+        if ($(".ms-c").css("display") == "none") {
+          $(".bottom-content .d-inline-flex.h-100").fadeOut(200, function () {
+            $(".ms-c").fadeIn(200);
+          });
+        }
+        $(".mc-desc").html("Запускаем игру...");
+      } else if (message.status == "started") {
+        gameTime = 0;
+        gameTimeUpdater = setInterval(function () {
+          if (lastStatus == "started") {
+            gameTime++;
+            $(".mc-desc").html("Игра запущена! Время игры: " + convertTime(gameTime));
+          }
+        }, 1000);
+      } else if (message.status == "stopping") {
+        $(".mc-desc").html("Игра закрывается...");
+        clearInterval(gameTimeUpdater);
+        gameTimeUpdater = "";
+        gameTime = 0;
+      } else if (message.status == "stopped") {
+        $(".ms-c").fadeOut(200, function () {
+          $(".bottom-content .d-inline-flex.h-100").fadeIn(200);
+          $(".mc-desc").html(
+            '<span></span><div class="progress"><div id="downloadpbar" class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;"></div></div>'
+          );
+        });
+        clearInterval(gameTimeUpdater);
+        gameTimeUpdater = "";
+        gameTime = 0;
+      }
+      lastStatus = message.status;
+    })
+
+    $(".mc-others .btn-danger").click(function () {
+      require('electron').ipcRenderer.send("killMinecraft");
+      clearInterval(gameTimeUpdater);
+        gameTimeUpdater = "";
+        gameTime = 0;
+    });
+
+    $(".props-modal #savebtn").click(function () {
+      db.put("theme__bgType", $(".props-modal .form-check-input:checked").eq(0).val());
+      db.put("theme__animType", $(".props-modal .form-check select").val());
+      reloadThemeFromDB();
+      db.put("gameSettings__maxMemory", $("#ramInput").val());
+      db.put("gameSettings__minMemory", $("#minRamInput").val());
+      db.put("gameSettings__javaPath", $("#javaPathInput").val());
+    });
+    $(".props-modal .form-check-input").change(function () {
+      switch ($(this).eq(0)[0].id) {
+        case "bgLauncherMode1":
+          $(".props-modal .form-check .form-control-sm").attr("disabled", "disabled");
+          $(".props-modal .form-check select").attr("disabled", "disabled");
+          break;
+        case "bgLauncherMode2":
+          $(".props-modal .form-check .form-control-sm").attr("disabled", "disabled");
+          $(".props-modal .form-check select").removeAttr("disabled");
+          break;
+      }
+    });
+    reloadThemeFromDB();
+    $(".navigation ul.styled li:not(.logo)").click(function () {
+      if (!$(this).hasClass("selected")) {
+        $(".navigation ul.styled  li.selected").removeClass("selected");
+        $(this).addClass("selected");
+        if ($(this).data("form") == "settings") {
+          console.log($(this).data("form"), "path");
+          $(".props-modal").show();
+          $(".props-modal").addClass("animate__animated");
+          $(".props-modal").addClass("animate__faster");
+          $(".props-modal").addClass("animate__slideInRight");
+        } else if ($(this).data("form") == "home") {
+          console.log($(this).data("form"), "path");
+          $(".props-modal").show();
+          animateCSS(".props-modal", "slideOutRight").then(function () {
+            $(".props-modal").hide();
+          });
+        }
+      }
+    });
+
+    db.get("loginForm__username", function (err, value) {
+      $("#drop-nickname").text(value);
+    });
+
+    function convertTime(seconds) {
+      var seconds = parseInt(seconds, 10)
+      var hours = Math.floor(seconds / 3600)
+      var minutes = Math.floor((seconds - (hours * 3600)) / 60)
+      var seconds = seconds - (hours * 3600) - (minutes * 60)
+      if (!!hours) {
+        if (!!minutes) {
+          return `${hours} ч ${minutes} м ${seconds} с`
+        } else {
+          return `${hours} м 0 м ${seconds} с`
+        }
+      }
+      if (!!minutes) {
+        return `0 ч ${minutes} м ${seconds} с`
+      }
+      return `0 ч 0 м ${seconds} с`
+    }
+
+    $.get("https://launchermeta.mojang.com/mc/game/version_manifest.json", function (data) {
+      $.get("http://m91237kd.beget.tech/forge_and_optifine_directs.json", function (data_fo) {
+        data.versions.forEach(function (element, i) {
+          if (element.type == "release") {
+            img = "grass_block_side.png"
+            $(".bottom-content .dropdown-menu").append(
+              '<li data-version-type="vanilla" data-version="' + element.id +
+              '"><a class="dropdown-item"><div class="d-inline-flex justify-content-center align-items-center"><img style="border-radius: 4px;" src="assets/blocks/' +
+              img + '" width=16 height=16/><span style="margin-left: 6px;">Версия ' +
+              element.id +
+              '</span></div></a></li>');
+
+            if (typeof data_fo[element.id] !== "undefined") {
+              if (typeof data_fo[element.id]["optifine_download"] !== "undefined") {
+                img = "gold_ore.png"
+                $(".bottom-content .dropdown-menu").append(
+                  '<li data-version-type="forge-optifine" data-version="' + element.id +
+                  '" data-forge-direct="' + data_fo[element.id].forge_download +
+                  '" data-optifine-direct="' + data_fo[element.id].optifine_download +
+                  '"><a class="dropdown-item"><div class="d-inline-flex justify-content-center align-items-center"><img style="border-radius: 4px;" src="assets/blocks/' +
+                  img +
+                  '" width=16 height=16/><span style="margin-left: 6px;">Версия Forge OptiFine ' +
+                  element.id +
+                  '</span></div></a></li>');
+              } else {
+                img = "gold_ore.png"
+                $(".bottom-content .dropdown-menu").append(
+                  '<li data-version-type="forge" data-version="' + element.id +
+                  '" data-forge-direct="' + data_fo[element.id].forge_download +
+                  '"><a class="dropdown-item"><div class="d-inline-flex justify-content-center align-items-center"><img style="border-radius: 4px;" src="assets/blocks/' +
+                  img +
+                  '" width=16 height=16/><span style="margin-left: 6px;">Версия Forge ' +
+                  element.id +
+                  '</span></div></a></li>');
+              }
+            }
+          }
+        });
+        $(".bottom-content .dropdown-menu li").click(function () {
+          parsed = $.parseHTML($(this).html());
+          $(".bottom-content button.styled").html(parsed[0].innerHTML);
+          $(".bottom-content button.styled").data("version-type", $(this).data("version-type"));
+          $(".bottom-content button.styled").data("version", $(this).data("version"));
+          $(".bottom-content button.styled").data("forge-direct", $(this).data("forge-direct"));
+          $(".bottom-content button.styled").data("optifine-direct", $(this).data("optifine-direct"));
+        });
+        $(".bottom-content .d-inline-flex.h-100 .btn-primary").click(function () {
+          vtype = $(".bottom-content button.styled").data("version-type");
+          mcVersion = $(".bottom-content button.styled").data("version");
+          minRam = $("#minRamInput").val();
+          maxRam = $("#ramInput").val();
+          authCredetinals = getAuthCredetinalsByUsername($("#drop-nickname").html());
+          javaPath = $("#javaPathInput").val().replaceAll('"', '').replaceAll("'", '');
+          if ($(".ms-c").css("display") == "none") {
+            $(".bottom-content .d-inline-flex.h-100").fadeOut(200,
+              function () {
+                $(".ms-c").fadeIn(200);
+              });
+          }
+          $("#downloadpbar").css("width", "0%");
+          $("#downloadpbar").prop("aria-valuenow", "0");
+          $(".mc-desc span").html("Пытаемся запустить игру...");
+          switch (vtype) {
+            case "vanilla":
+              opts = launcherOptionsGenerator(mcVersion, "release", authCredetinals, minRam, maxRam,
+                javaPath, "");
+              launchMinecraft(opts);
+              break;
+            case "forge":
+              forgeLink = $(".bottom-content button.styled").data("forge-direct");
+              $(".mc-desc span").html("Скачиваем Forge...");
+              downloadFile(forgeLink, "./minecraft/LL_downloads/", "https", function (forgePath) {
+                opts = launcherOptionsGenerator(mcVersion, "release", authCredetinals, minRam,
+                  maxRam,
+                  javaPath, forgePath);
+                launchMinecraft(opts);
+              });
+              break;
+            case "forge-optifine":
+              forgeLink = $(".bottom-content button.styled").data("forge-direct");
+              optifineLink = $(".bottom-content button.styled").data("optifine-direct");
+
+              $(".mc-desc span").html("Скачиваем Forge...");
+              downloadFile(forgeLink, "./minecraft/LL_downloads/", "https", function (forgePath) {
+                $(".mc-desc span").html("Скачиваем OptiFine...");
+                downloadFile(optifineLink, "./minecraft/mods/" + mcVersion + "/", "http",
+                  function () {
+                    opts = launcherOptionsGenerator(mcVersion, "release", authCredetinals, minRam,
+                      maxRam,
+                      javaPath, forgePath);
+                    launchMinecraft(opts);
+                  });
+              });
+              break;
+          }
+
+          /*arr = $(".bottom-content button.styled div span").html().toString().split(" ");
+          version = arr[arr.length - 1];
+          db.get("loginForm__username", function (err, value) {
+            authpir = {
+              access_token: 'null',
+              client_token: 'null',
+              uuid: generateAccessToken(),
+              name: value,
+              user_properties: '{}',
+              meta: {
+                type: 'mojang',
+                demo: false
+              }
+            };
+            db.get('gameSettings__maxMemory', function (err, maxRam) {
+              if (err) {
+                console.log("DB ERROR:", err);
+              } else {
+                db.get('gameSettings__minMemory', function (err, minRam) {
+                  if (err) {
+                    if (err.name == "NotFoundError") {
+                      console.log("DB ERROR:", err);
+                    }
+                  } else {
+                    vtype = $(".bottom-content button.styled").data("version-type");
+                    mc_version = $(".bottom-content button.styled").data("version");
+                    if (vtype == "forge") {
+                      fdirect = $(".bottom-content button.styled").data("forge-direct");
+                      fd_fn = fdirect.toString().split("/");
+                      fd_fn = fd_fn[fd_fn.length - 1];
+                      console.log(fd_fn);
+                      if (fs.existsSync("./minecraft/LL_downloads/" + fd_fn)) {
+                        console.log("forge exists");
+                        if ($("#javaPathInput").val() != "") {
+                          let opts = {
+                            clientPackage: null,
+                            root: "./minecraft",
+                            version: {
+                              number: version,
+                              type: "release"
+                            },
+                            forge: "./minecraft/LL_downloads/" +
+                              fd_fn,
+                            javaPath: $("#javaPathInput").val().replaceAll('"', '')
+                              .replaceAll("'", ''),
+                            memory: {
+                              max: maxRam + "M",
+                              min: minRam + "M",
+                            },
+                            authorization: authpir,
+                            overrides: {
+                              detached: false
+                            }
+                          }
+                        } else {
+                          let opts = {
+                            clientPackage: null,
+                            root: "./minecraft",
+                            version: {
+                              number: version,
+                              type: "release"
+                            },
+                            forge: "./minecraft/LL_downloads/" +
+                              fd_fn,
+                            memory: {
+                              max: maxRam + "M",
+                              min: minRam + "M",
+                            },
+                            authorization: authpir,
+                            overrides: {
+                              detached: false
+                            }
+                          }
+                        }
+                        require('electron').ipcRenderer.sendSync(
+                          "startMinecraft", opts);
+                        if ($(".ms-c").css("display") == "none") {
+                          $(".bottom-content .d-inline-flex.h-100").fadeOut(200,
+                            function () {
+                              $(".ms-c").fadeIn(200);
+                            });
+                        }
+                        $("#downloadpbar").css("width", "0%");
+                        $("#downloadpbar").prop("aria-valuenow", "0");
+                        $(".mc-desc span").html("Пытаемся запустить игру...");
+                      } else {
+                        console.log("forge not exists, downloading");
+                        if ($(".ms-c").css("display") == "none") {
+                          $(".bottom-content .d-inline-flex.h-100").fadeOut(200,
+                            function () {
+                              $(".ms-c").fadeIn(200);
+                            });
+                        }
+                        $("#downloadpbar").css("width", "0%");
+                        $("#downloadpbar").prop("aria-valuenow", "0");
+                        $(".mc-desc span").html("Скачивание Forge");
+                        https.get(fdirect, (res) => {
+                          const path = "./minecraft/LL_downloads/" + fd_fn;
+                          const writeStream = fs.createWriteStream(path);
+
+                          res.pipe(writeStream);
+
+                          writeStream.on("finish", () => {
+                            writeStream.close();
+                            console.log("Download Forge Completed");
+                            if ($("#javaPathInput").val() != "") {
+                              let opts = {
+                                clientPackage: null,
+                                root: "./minecraft",
+                                version: {
+                                  number: version,
+                                  type: "release"
+                                },
+                                forge: "./minecraft/LL_downloads/" +
+                                  fd_fn,
+                                javaPath: $("#javaPathInput").val().replaceAll(
+                                    '"', '')
+                                  .replaceAll("'", ''),
+                                memory: {
+                                  max: maxRam + "M",
+                                  min: minRam + "M",
+                                },
+                                authorization: authpir,
+                                overrides: {
+                                  detached: false
+                                }
+                              }
+                            } else {
+                              let opts = {
+                                clientPackage: null,
+                                root: "./minecraft",
+                                version: {
+                                  number: version,
+                                  type: "release"
+                                },
+                                forge: "./minecraft/LL_downloads/" +
+                                  fd_fn,
+                                memory: {
+                                  max: maxRam + "M",
+                                  min: minRam + "M",
+                                },
+                                authorization: authpir,
+                                overrides: {
+                                  detached: false
+                                }
+                              }
+                            }
+                            require('electron').ipcRenderer.sendSync(
+                              "startMinecraft", opts);
+                            if ($(".ms-c").css("display") == "none") {
+                              $(".bottom-content .d-inline-flex.h-100").fadeOut(200,
+                                function () {
+                                  $(".ms-c").fadeIn(200);
+                                });
+                            }
+                            $("#downloadpbar").css("width", "0%");
+                            $("#downloadpbar").prop("aria-valuenow", "0");
+                            $(".mc-desc span").html("Пытаемся запустить игру...");
+                          });
+                        });
+                      }
+                    } else if (vtype == "forge-optifine") {
+                      fdirect = $(".bottom-content button.styled").data("forge-direct");
+                      odirect = $(".bottom-content button.styled").data("optifine-direct");
+                      fd_fn = fdirect.toString().split("/");
+                      fd_fn = fd_fn[fd_fn.length - 1];
+                      console.log(fd_fn);
+                      od_fn = odirect.toString().split("/");
+                      od_fn = od_fn[od_fn.length - 1];
+                      console.log(od_fn);
+                      if (fs.existsSync("./minecraft/LL_downloads/" + fd_fn)) {
+                        console.log("forge exists");
+                        if (fs.existsSync("./minecraft/mods/" + mc_version + "/" + od_fn)) {
+                          if ($("#javaPathInput").val() != "") {
+                            let opts = {
+                              clientPackage: null,
+                              root: "./minecraft",
+                              version: {
+                                number: version,
+                                type: "release"
+                              },
+                              forge: "./minecraft/LL_downloads/" +
+                                fd_fn,
+                              javaPath: $("#javaPathInput").val().replaceAll('"', '')
+                                .replaceAll("'", ''),
+                              memory: {
+                                max: maxRam + "M",
+                                min: minRam + "M",
+                              },
+                              authorization: authpir,
+                              overrides: {
+                                detached: false
+                              }
+                            }
+                          } else {
+                            let opts = {
+                              clientPackage: null,
+                              root: "./minecraft",
+                              version: {
+                                number: version,
+                                type: "release"
+                              },
+                              forge: "./minecraft/LL_downloads/" +
+                                fd_fn,
+                              memory: {
+                                max: maxRam + "M",
+                                min: minRam + "M",
+                              },
+                              authorization: authpir,
+                              overrides: {
+                                detached: false
+                              }
+                            }
+                          }
+                          require('electron').ipcRenderer.sendSync(
+                            "startMinecraft", opts);
+                          if ($(".ms-c").css("display") == "none") {
+                            $(".bottom-content .d-inline-flex.h-100").fadeOut(200,
+                              function () {
+                                $(".ms-c").fadeIn(200);
+                              });
+                          }
+                          $("#downloadpbar").css("width", "0%");
+                          $("#downloadpbar").prop("aria-valuenow", "0");
+                          $(".mc-desc span").html("Пытаемся запустить игру...");
+                        }
+                      } else {
+                        if ($(".ms-c").css("display") == "none") {
+                          $(".bottom-content .d-inline-flex.h-100").fadeOut(200,
+                            function () {
+                              $(".ms-c").fadeIn(200);
+                            });
+                        }
+                        $("#downloadpbar").css("width", "0%");
+                        $("#downloadpbar").prop("aria-valuenow", "0");
+                        $(".mc-desc span").html("Скачивание Forge");
+
+                        console.log("forge not exists, downloading");
+                        fs.mkdirSync("./minecraft/LL_downloads", {
+                          recursive: true
+                        });
+                        https.get(fdirect, (res) => {
+                          const path = "./minecraft/LL_downloads/" + fd_fn;
+                          const writeStream = fs.createWriteStream(path);
+
+                          res.pipe(writeStream);
+
+                          writeStream.on("finish", () => {
+                            writeStream.close();
+                            console.log("Download Forge Completed");
+                            if (fs.existsSync("./minecraft/mods/" + mc_version +
+                                "/" + od_fn)) {
+                              console.log("optifine exists");
+                              if ($("#javaPathInput").val() != "") {
+                                let opts = {
+                                  clientPackage: null,
+                                  root: "./minecraft",
+                                  version: {
+                                    number: version,
+                                    type: "release"
+                                  },
+                                  forge: "./minecraft/LL_downloads/" +
+                                    fd_fn,
+                                  javaPath: $("#javaPathInput").val().replaceAll(
+                                    '"', '').replaceAll("'", ''),
+                                  memory: {
+                                    max: maxRam + "M",
+                                    min: minRam + "M",
+                                  },
+                                  authorization: authpir,
+                                  overrides: {
+                                    detached: false
+                                  }
+                                }
+                              } else {
+                                let opts = {
+                                  clientPackage: null,
+                                  root: "./minecraft",
+                                  version: {
+                                    number: version,
+                                    type: "release"
+                                  },
+                                  forge: "./minecraft/LL_downloads/" +
+                                    fd_fn,
+                                  memory: {
+                                    max: maxRam + "M",
+                                    min: minRam + "M",
+                                  },
+                                  authorization: authpir,
+                                  overrides: {
+                                    detached: false
+                                  }
+                                }
+                              }
+                              require('electron').ipcRenderer.sendSync(
+                                "startMinecraft", opts);
+                              if ($(".ms-c").css("display") == "none") {
+                                $(".bottom-content .d-inline-flex.h-100").fadeOut(
+                                  200,
+                                  function () {
+                                    $(".ms-c").fadeIn(200);
+                                  });
+                              }
+                              $("#downloadpbar").css("width", "0%");
+                              $("#downloadpbar").prop("aria-valuenow", "0");
+                              $(".mc-desc span").html("Пытаемся запустить игру...");
+                            } else {
+                              console.log("optifine not exists");
+                              console.log("forge not exists, downloading");
+                              if ($(".ms-c").css("display") == "none") {
+                                $(".bottom-content .d-inline-flex.h-100").fadeOut(
+                                  200,
+                                  function () {
+                                    $(".ms-c").fadeIn(200);
+                                  });
+                              }
+                              $("#downloadpbar").css("width", "0%");
+                              $("#downloadpbar").prop("aria-valuenow", "0");
+                              $(".mc-desc span").html("Скачивание OptiFine");
+
+                              fs.mkdirSync("./minecraft/mods/" + mc_version, {
+                                recursive: true
+                              });
+
+                              http.get(odirect, (res) => {
+                                const path = "./minecraft/mods/" + mc_version +
+                                  "/" + od_fn;
+                                const writeStream = fs.createWriteStream(path);
+
+                                res.pipe(writeStream);
+
+                                writeStream.on("finish", () => {
+                                  writeStream.close();
+                                  console.log(
+                                    "Download OptiFine Completed");
+                                  if ($("#javaPathInput").val() != "") {
+                                    let opts = {
+                                      clientPackage: null,
+                                      root: "./minecraft",
+                                      version: {
+                                        number: version,
+                                        type: "release"
+                                      },
+                                      forge: "./minecraft/LL_downloads/" +
+                                        fd_fn,
+                                      javaPath: $("#javaPathInput").val()
+                                        .replaceAll('"', '').replaceAll(
+                                          "'", ''),
+                                      memory: {
+                                        max: maxRam + "M",
+                                        min: minRam + "M",
+                                      },
+                                      authorization: authpir,
+                                      overrides: {
+                                        detached: false
+                                      }
+                                    }
+                                  } else {
+                                    let opts = {
+                                      clientPackage: null,
+                                      root: "./minecraft",
+                                      version: {
+                                        number: version,
+                                        type: "release"
+                                      },
+                                      forge: "./minecraft/LL_downloads/" +
+                                        fd_fn,
+                                      memory: {
+                                        max: maxRam + "M",
+                                        min: minRam + "M",
+                                      },
+                                      authorization: authpir,
+                                      overrides: {
+                                        detached: false
+                                      }
+                                    }
+                                  }
+                                  require('electron').ipcRenderer.sendSync(
+                                    "startMinecraft", opts);
+                                  if ($(".ms-c").css("display") == "none") {
+                                    $(".bottom-content .d-inline-flex.h-100")
+                                      .fadeOut(200,
+                                        function () {
+                                          $(".ms-c").fadeIn(200);
+                                        });
+                                  }
+                                  $("#downloadpbar").css("width", "0%");
+                                  $("#downloadpbar").prop("aria-valuenow",
+                                    "0");
+                                  $(".mc-desc span").html(
+                                    "Пытаемся запустить игру...");
+                                });
+                              });
+                            }
+                          });
+                        });
+                      }
+                    } else if (vtype == "vanilla") {
+                      if ($("#javaPathInput").val() != "") {
+                        let opts = {
+                          clientPackage: null,
+                          root: "./minecraft",
+                          version: {
+                            number: version,
+                            type: "release"
+                          },
+                          javaPath: $("#javaPathInput").val().replaceAll('"', '')
+                            .replaceAll("'", ''),
+                          memory: {
+                            max: maxRam + "M",
+                            min: minRam + "M",
+                          },
+                          authorization: authpir,
+                          overrides: {
+                            detached: false
+                          }
+                        }
+                      } else {
+                        let opts = {
+                          clientPackage: null,
+                          root: "./minecraft",
+                          version: {
+                            number: version,
+                            type: "release"
+                          },
+                          memory: {
+                            max: maxRam + "M",
+                            min: minRam + "M",
+                          },
+                          authorization: authpir,
+                          overrides: {
+                            detached: false
+                          }
+                        }
+                      }
+                      require('electron').ipcRenderer.sendSync("startMinecraft", opts);
+                      if ($(".ms-c").css("display") == "none") {
+                        $(".bottom-content .d-inline-flex.h-100").fadeOut(200,
+                          function () {
+                            $(".ms-c").fadeIn(200);
+                          });
+                      }
+                      $("#downloadpbar").css("width", "0%");
+                      $("#downloadpbar").prop("aria-valuenow", "0");
+                      $(".mc-desc span").html("Пытаемся запустить игру...");
+                    }
+                  }
+                });
+              }
+            });
+          });*/
+        });
+      });
+    });
+  });
+</script>
+
+<style>
+  .ms-c {
+    display: grid;
+    grid-template-columns: 64px 1fr max-content;
+    grid-template-rows: max-content 1fr;
+    gap: 0em 3em;
+    grid-auto-flow: row;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+    grid-template-areas:
+      "mc-icon mc-name mc-others"
+      "mc-icon mc-desc mc-others";
+    width: 100%;
+    height: 100%;
+  }
+
+  .mc-icon {
+    grid-area: mc-icon;
+  }
+
+  .mc-name {
+    justify-self: start;
+    align-self: center;
+    grid-area: mc-name;
+  }
+
+  .mc-desc {
+    justify-self: stretch;
+    align-self: stretch;
+    grid-area: mc-desc;
+  }
+
+  .mc-others {
+    grid-area: mc-others;
+  }
+
+  .whitebg-zapas {
+    background: white;
+    width: 150%;
+    height: 150%;
+    z-index: -5;
+    border-radius: 10px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  .props-modal {
+    width: calc(100% - 100px);
+    height: 100%;
+    z-index: 10;
+    position: absolute;
+    left: 100px;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: white;
+    padding: 24px;
+    border-radius: 10px;
+  }
+
+  .props-modal .pcontent {
+    padding: 0 10px;
+  }
+
+  #vanta-bg {
+    width: 100%;
+    height: 100%;
+    z-index: -50;
+    border-radius: 10px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  #vanta-bg canvas {
+    border-radius: 10px;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    grid-template-rows: 1fr 100px;
+    gap: 0px 0px;
+    width: 100%;
+    height: 100%;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "navigation content"
+      "navigation bottom-content";
+    border-radius: 10px;
+    background: transparent;
+  }
+
+  .navigation {
+    grid-area: navigation;
+    border-right: 1px solid #ebebeb;
+  }
+
+  .content {
+    grid-area: content;
+    padding: 24px;
+  }
+
+  .bottom-content {
+    border-top: 1px solid #ebebeb;
+    grid-area: bottom-content;
+    padding: 16px;
+  }
+
+  .navigation ul.styled {
+    display: flex;
+    box-orient: vertical;
+    box-direction: normal;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+  }
+
+  .navigation ul.styled li {
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .navigation .material-icons {
+    cursor: pointer;
+  }
+
+  .navigation .logo {
+    margin-bottom: 1rem;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    box-pack: center;
+    box-align: center;
+    justify-content: center;
+    padding: 15px 0;
+    position: relative;
+  }
+
+  .navigation ul.styled li:not(.logo) {
+    margin: 5px 20px;
+    background: white;
+    display: flex;
+    align-items: center;
+    box-pack: center;
+    box-align: center;
+    justify-content: center;
+    border-radius: 5px;
+    height: 48px;
+  }
+
+  .navigation .selected {
+    background: #e6e6e6 !important;
+  }
+
+  .navigation .selected .material-icons {
+    color: #007bff;
+  }
+
+  .navigation ul.styled li i:hover {
+    color: #007bff;
+  }
+
+  .navigation .usernav-cont {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    align-content: center;
+    height: 60%;
+    width: 100px;
+  }
+
+  .navigation .usernav-box {
+    flex: 0 1 auto;
+    cursor: pointer;
+  }
+
+  .bottom-content button.styled {
+    border: 0;
+    outline: 0;
+    appearance: none;
+    background-color: var(--mdb-gray-200);
+    border-radius: 6px;
+    padding: 8px 8px;
+    margin: 0;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: inherit;
+    line-height: inherit;
+    width: 100%;
+    height: 45px;
+    box-shadow: none;
+    text-align: left;
+    color: black;
+  }
+
+  .bottom-content .btn-group {
+    width: calc(100% - 24px);
+    box-shadow: none;
+  }
+</style>

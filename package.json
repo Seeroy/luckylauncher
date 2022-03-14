@@ -1,0 +1,25 @@
+{
+  "name": "luckylauncher-web",
+  "version": "1.0.0",
+  "description": "Minecraft LuckyLauncher by Seeroy",
+  "main": "app.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager . LuckyLauncher --platform=win32 --arch=x64"
+  },
+  "keywords": [],
+  "author": "Seeroy",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.10",
+    "crypto-js": "^4.1.1",
+    "electron": "^17.1.0",
+    "glob": "^7.2.0",
+    "jquery": "^3.6.0",
+    "level": "^7.0.1",
+    "minecraft-launcher-core": "^3.16.12",
+    "open": "^8.4.0",
+    "request": "^2.88.2",
+    "sync-request": "^6.1.0"
+  }
+}

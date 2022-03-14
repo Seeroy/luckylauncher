@@ -1,0 +1,132 @@
+.row {
+  height: 100%;
+  width: 100%;
+  --mdb-gutter-x: 0 !important;
+}
+
+.col-md-8 {
+  background: var(--mdb-primary);
+  padding: 0;
+  height: 100%;
+  -webkit-app-region: drag;
+}
+
+.col-md-4 {
+  background: white;
+  padding: 32px;
+  height: 100%;
+}
+
+.nav-pills .nav-link {
+  padding: 6px 0 !important;
+}
+
+.nav-pills .nav-link:not(.active) {
+  cursor: pointer;
+}
+
+input[type="text"],
+input[type="password"] {
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  background: var(--mdb-gray-100);
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  background: var(--mdb-gray-100);
+}
+
+.input-group-text.material-icons {
+  outline: none;
+  border: none;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: 2px solid var(--mdb-gray-300);
+  background: var(--mdb-gray-100);
+}
+
+#mojang-submit-button,
+#pirate-submit-button {
+  margin-top: 10px;
+}
+
+#left-bottom-abs {
+  margin-top: 10px;
+}
+
+a.text-decoration-none {
+  cursor: pointer;
+}
+
+.col-md-8 .btn-light {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  z-index: 2;
+  background: rgb(255,255,255,0.3) !important;
+  color: white !important;
+}
+
+.btn {
+  text-transform: initial;
+}
+
+.col-md-4 {
+  z-index: 2;
+}
+
+#margin-center-image {
+  position: absolute;
+  left: 20%;
+  right: 0;
+  top: 32%;
+  bottom: 0;
+}
+
+.msg-card {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 15;
+  height: max-content;
+  width: max-content;
+}
+
+.hideAllBg {
+  background: var(--mdb-primary);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  border-radius: 10px;
+}
+
+.dropup .dropdown-toggle:after {
+  display: none !important;
+}
+
+.task-buttons {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  z-index: 900;
+}
+
+.task-buttons span {
+  cursor: pointer;
+}
+
+.task-buttons span:nth-child(1) {
+  margin-right: 8px;
+}

@@ -1,0 +1,72 @@
+<div class="spinner"></div>
+<div class="lobg"></div>
+<div class="sperr"></div>
+
+<style>
+.lobg {
+  backdrop-filter: blur(1px);
+  background: rgb(20,20,20,0.5);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 12;
+  border-radius: 10px;
+}
+
+.spinner{
+  width: 80px;
+  height: 80px;
+  border: 2px solid var(--mdb-white);
+  border-top:3px solid var(--mdb-primary);
+  border-radius: 100%;
+  position: absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right: 0;
+  margin: auto;
+  z-index: 13;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  from{
+      transform: rotate(0deg);
+  }to{
+      transform: rotate(360deg);
+  }
+}
+
+.sperr {
+  position: absolute;
+  width: max-content;
+  height: max-content;
+  left: 0;
+  right: 0;
+  top: 20%;
+  bottom: 0;
+  z-index: 13;
+  margin: auto;
+  color: var(--mdb-white);
+}
+</style>
+
+<script>
+function showLoading(text){
+  $(".spinner").show();
+  $(".sperr").html(text);
+  $(".sperr").show();
+  $(".lobg").show();
+}
+
+function hideLoading(){
+  $(".spinner").hide();
+  $(".sperr").hide();
+  $(".sperr").html("");
+  $(".lobg").hide();
+}
+</script>

@@ -1,0 +1,388 @@
+<head>
+  <script src="js/mdb.min.js"></script>
+  <link rel="stylesheet" href="css/mdb.min.css">
+  <title>LuckyLauncher</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="css/app/globals.css">
+  <link rel="stylesheet" href="css/app/login_screen.css">
+  <link rel="stylesheet" href="css/animate.min.css" />
+  <link rel="stylesheet" href="assets/font/stylesheet.css">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script src="js/vanta/three.min.js"></script>
+  <script src="js/vanta/vanta.birds.min.js"></script>
+  <script src="js/vanta/vanta.net.min.js"></script>
+  <script src="js/vanta/vanta.dots.min.js"></script>
+</head>
+
+<body>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="animate__animated animate__fadeInLeft">
+        <p class="fs-4">Авторизация в LuckyLauncher</p>
+
+        <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link mojang-pill" data-tn="mojang" id="ex3-tab-1" data-mdb-toggle="pill" href="#ex3-pills-1"
+              role="tab" aria-controls="ex3-pills-1" aria-selected="true">Аккаунт Mojang</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link pirate-pill" data-tn="pirate" id="ex3-tab-2" data-mdb-toggle="pill" href="#ex3-pills-2"
+              role="tab" aria-controls="ex3-pills-2" aria-selected="false">Пиратский аккаунт</a>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="ex2-content">
+
+          <!-- Mojang auth tab -->
+          <div class="tab-pane fade mojang-tab" id="ex3-pills-1" role="tabpanel" aria-labelledby="ex3-tab-1">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" id="mojang-login-input" placeholder="Никнейм" aria-label="Никнейм"
+                required />
+            </div>
+            <div class="input-group mb-3">
+              <input type="password" class="form-control" id="mojang-passwd-input" placeholder="Пароль"
+                aria-label="Пароль" aria-describedby="mojang-passwd-eye" required />
+              <span class="input-group-text material-icons" id="mojang-passwd-eye">visibility</span>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+              <label class="form-check-label" for="flexCheckChecked">Автоматический вход</label>
+            </div>
+            <button type="button" id="mojang-submit-button" class="w-100 btn btn-primary btn-lg">Войти в
+              аккаунт</button>
+
+            <div id="left-bottom-abs">
+              <a href="#" id="mojang-buy-button" class="text-decoration-none">У меня нет лицензионного аккаунта</a>
+            </div>
+          </div>
+          <!-- Pirate auth tab -->
+          <div class="tab-pane fade pirate-tab" id="ex3-pills-2" role="tabpanel" aria-labelledby="ex3-tab-2">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" id="pirate-login-input" placeholder="Никнейм" aria-label="Никнейм"
+                required />
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+              <label class="form-check-label" for="flexCheckChecked">Автоматический вход</label>
+            </div>
+            <button type="button" id="pirate-submit-button" class="w-100 btn btn-primary btn-lg">Войти в
+              аккаунт</button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div class="col-md-8">
+      <button class="btn btn-light">Сообщить об ошибке</button>
+      <!--<img class="animate__animated animate__slideInUp" src="assets/right-image.png">
+      <canvas id="right-canvas" width=683 height=600></canvas>-->
+      <img class="animate__animated animate__slideInRight" id="margin-center-image" height="70%"
+        src="assets/steve_background.png">
+      <div
+        class="d-flex flex-column justify-content-center align-items-center animate__animated animate__delay-1s animate__zoomIn animate__faster"
+        style="transform: translateY(50%);">
+        <img src="assets/luckylauncher_logo_white.png" width=160>
+        <span class="fs-1 text-white">LuckyLauncher</span>
+        <span class="fs-4 text-white">Добро пожаловать :)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card text-center border-0 msg-card" style="display: none;">
+    <div class="card-header"></div>
+    <div class="card-body">
+      <p class="card-text"></p>
+      <button type="button" class="btn btn-primary"></button>
+    </div>
+  </div>
+
+  <div class="hideAllBg" style="display: none;"></div>
+
+  <div class="task-buttons">
+    <div class="h-100 d-inline-flex align-items-center">
+      <span class="material-icons" id="hideApp">remove</span>
+      <span class="material-icons" id="closeApp">close</span>
+    </div>
+  </div>
+</body>
+
+<script>
+  const js_open = require('open');
+  window.$ = window.jQuery = require('jquery');
+  const level = require('level');
+  const db = level('maindb');
+  const {
+    ipcRenderer
+  } = require('electron');
+
+  function showMessage(title, text, buttonText, backgroundColor = "white", textWhite = false) {
+    $(".msg-card .card-header").html(title);
+    $(".msg-card .card-text").html(text);
+    $(".msg-card").css("background-color", backgroundColor);
+    if (textWhite) {
+      $(".msg-card").addClass("text-white");
+    } else {
+      if ($(".msg-card").hasClass("text-white")) {
+        $(".msg-card").removeClass("text-white");
+      }
+    }
+    $(".msg-card .btn").html(buttonText);
+    $(".msg-card").show();
+    $(".lobg").show();
+  }
+
+  ipcRenderer.on("showError", function (e, args) {
+    showMessage(args.title, args.message, args.button,
+      "var(--mdb-danger)", true);
+  });
+
+  $(document).ready(function () {
+    $("#closeApp").click(function () {
+      ipcRenderer.send("closeApp", "");
+    });
+    $("#hideApp").click(function () {
+      ipcRenderer.send("hideApp", "");
+    });
+
+    db.get('loginpage__currentTab', function (err, value) {
+      if (err) {
+        if (err.name == "NotFoundError") {
+          db.put("loginpage__currentTab", "pirate");
+        }
+      }
+    });
+
+    db.get('gameSettings__maxMemory', function (err, value) {
+      if (err) {
+        if (err.name == "NotFoundError") {
+          totalRAMx2 = require('os').totalmem();
+          totalRAMx2 = Math.round((totalRAMx2 / (1024 * 1024)) / 2);
+          db.put("gameSettings__maxMemory", totalRAMx2);
+        }
+      }
+    });
+
+    db.get('gameSettings__minMemory', function (err, value) {
+      if (err) {
+        if (err.name == "NotFoundError") {
+          totalRAMx4 = require('os').totalmem();
+          totalRAMx4 = Math.round((totalRAMx4 / (1024 * 1024)) / 4);
+          db.put("gameSettings__minMemory", totalRAMx4);
+        }
+      }
+    });
+
+    db.get('gameSettings__javaPath', function (err, value) {
+      if (err) {
+        if (err.name == "NotFoundError") {
+          db.put("gameSettings__javaPath", "");
+        }
+      }
+    });
+
+    db.get('theme__bgType', function (err, value) {
+      if (err) {
+        if (err.name == "NotFoundError") {
+          db.put("theme__bgType", "whitescreen");
+        }
+      }
+    });
+
+    db.get('theme__animType', function (err, value) {
+      if (err) {
+        if (err.name == "NotFoundError") {
+          db.put("theme__animType", "birds");
+        }
+      }
+    });
+
+    $.get("loader.html", function (doc) {
+      $("body").append(doc);
+      hideLoading();
+      db.get("loginForm__autologin", function (err, value) {
+        if (err) {
+          console.log('DB error:', err);
+          if (err.name == "NotFoundError") {
+            $(".tab-content .form-check-input").each(function () {
+              $(this).prop('checked', true);
+            });
+          }
+        } else {
+          $(".tab-content .form-check-input").each(function () {
+            console.log(value);
+            if (value == "on") {
+              $(this).prop('checked', true);
+            } else {
+              $(this).removeAttr('checked');
+            }
+          });
+        }
+      });
+      db.get("loginForm__username", function (err, value) {
+        if (!err) {
+          $("#mojang-login-input").val(value);
+          $("#pirate-login-input").val(value);
+        } else {
+          console.log('DB error:', err);
+        }
+      });
+      $(".msg-card .btn").click(function () {
+        $(".msg-card").hide();
+        $(".lobg").hide();
+      });
+      $(".nav-pills .nav-link").click(function () {
+        tn = $(this).data("tn");
+        console.log("writing", tn);
+        db.put("loginpage__currentTab", tn, function (err, value) {
+          if (err) return console.log('DB error:', err);
+        });
+      });
+
+      db.get('loginpage__currentTab', function (err, value) {
+        if (err) {
+          console.log('DB error:', err);
+          if (err.name == "NotFoundError") {
+            $(".pirate-pill").addClass("active");
+            $(".pirate-tab").addClass("active");
+            $(".pirate-tab").addClass("show");
+          }
+        } else {
+          $("." + value + "-pill").addClass("active");
+          $("." + value + "-tab").addClass("active");
+          $("." + value + "-tab").addClass("show");
+        }
+        db.get("loginForm__autologin", function (err, vl) {
+          if (err) {
+            console.log('DB error:', err);
+            if (err.name == "NotFoundError") {
+              $(".tab-content .form-check-input").each(function () {
+                $(this).prop('checked', true);
+              });
+            }
+          } else {
+            console.log(vl);
+            console.log(value);
+            if (value == "mojang" && vl == "on") {
+              submit__mojang();
+            }
+            if (value == "pirate" && vl == "on") {
+              submit__pirate();
+            }
+          }
+        });
+      });
+
+      /* Mojang form processing */
+      $("#mojang-passwd-eye").click(function () {
+        if ($("#mojang-passwd-input")[0].type == "password") {
+          $("#mojang-passwd-input")[0].type = "text";
+          $("#mojang-passwd-eye").css("color", "var(--mdb-primary)");
+        } else {
+          $("#mojang-passwd-input")[0].type = "password";
+          $("#mojang-passwd-eye").css("color", "black");
+        }
+      });
+
+      $("#mojang-buy-button").click(function () {
+        js_open("https://www.minecraft.net/get-minecraft");
+      });
+
+      $("#mojang-submit-button").click(function () {
+        submit__mojang();
+      });
+
+      /* Pirate auth processing */
+      $("#pirate-submit-button").click(function () {
+        submit__pirate();
+      });
+    });
+  });
+
+  function submit__pirate() {
+    if ($("#pirate-login-input").val() != "") {
+      db.put("loginForm__username", $("#pirate-login-input").val());
+      if ($(".pirate-tab .form-check-input").is(':checked')) {
+        r = "on";
+      } else {
+        r = "off";
+      }
+      db.put("loginForm__autologin", r);
+      db.put("loginpage__currentTab", $(".nav-pills .nav-link.active").data("tn"));
+      $(".hideAllBg").show();
+      animateCSS(".hideAllBg", "fadeIn", "fast");
+      showLoading("Загрузка интерфейса");
+      $.get("mainpage.html", function (doc) {
+        $(".row").html(doc);
+        animateCSS(".hideAllBg", "fadeOut", "fast").then(function () {
+          $(".hideAllBg").hide();
+          hideLoading();
+        });
+      });
+    }
+  }
+
+  function submit__mojang() {
+    showMessage("Ошибка", "Авторизация через офицальный аккаунт пока недоступна!", "Хорошо",
+      "var(--mdb-danger)", true);
+    /*showLoading("Проверка доступности серверов Mojang");
+        $.get("https://authserver.mojang.com/", function (stat) {
+          if (stat.Status == "OK") {
+            showLoading("Авторизация");
+            username = $("#mojang-login-input").val();
+            password = $("#mojang-passwd-input").val();
+            payload = {
+              "agent": {
+                "name": "Minecraft",
+                "version": 1
+              },
+              "username": username,
+              "password": password,
+              "requestUser": true
+            };
+            payload = JSON.stringify(payload);
+            $.ajax({
+              type: "POST",
+              url: "https://authserver.mojang.com/authenticate",
+              data: payload,
+              success: function (response) {
+                console.log(response);
+              },
+              contentType: 'application/json',
+              dataType: "json"
+            });
+          }
+        });*/
+  }
+
+  const animateCSS = (element, animation, speed = "default", prefix = 'animate__') =>
+    // We create a Promise and return it
+    new Promise((resolve, reject) => {
+      const animationName = `${prefix}${animation}`;
+      const node = document.querySelector(element);
+
+      node.classList.add(`${prefix}animated`, animationName);
+      if (speed != "default") {
+        node.classList.add(`${prefix}` + speed);
+      }
+
+      // When the animation ends, we clean the classes and resolve the Promise
+      function handleAnimationEnd(event) {
+        event.stopPropagation();
+        node.classList.remove(`${prefix}animated`, animationName);
+        if (speed != "default") {
+          node.classList.remove(`${prefix}` + speed);
+        }
+        resolve('Animation ended');
+      }
+
+      node.addEventListener('animationend', handleAnimationEnd, {
+        once: true
+      });
+    });
+</script>
+
+<style>
+
+</style>
