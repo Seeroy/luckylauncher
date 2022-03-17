@@ -1,3 +1,5 @@
+downloaduagent = "Mozilla/5.0 (Windows; U; Windows NT 6.1) AppleWebKit/535.35.6 (KHTML, like Gecko) Version/5.0.3 Safari/535.35.6";
+
 function getAuthCredetinalsByUsername(username) {
   access_token = generateAccessToken().toString();
   authpir = {
@@ -14,46 +16,50 @@ function getAuthCredetinalsByUsername(username) {
   return authpir;
 }
 
-function downloadFile(url, directory, type = "https", callback) {
+function userConsoleLog(text){
+  require('electron').ipcRenderer.sendSync("userConsoleLog", text);
+}
+
+function downloadFile(options, directory, type = "https", callback) {
   filename = url.toString().split("/");
   filename = filename[filename.length - 1];
-  fs.mkdirSync(directory, { recursive: true });
-  if (fs.existsSync(directory + filename)) {
-    callback(directory + filename);
-  } else {
-    if (type == "https") {
-      https.get(url, (res) => {
-        const path = directory + filename;
-        const writeStream = fs.createWriteStream(path);
+  options["headers"] = { 'User-Agent': downloaduagent };
+  fs.mkdirSync(directory, {
+    recursive: true
+  });
+  if (type == "https") {
+    https.get(options, (res) => {
+      const path = directory + filename;
+      const writeStream = fs.createWriteStream(path);
 
-        res.pipe(writeStream);
+      res.pipe(writeStream);
 
-        writeStream.on("finish", () => {
-          writeStream.close();
-          callback(directory + filename);
-        });
+      writeStream.on("finish", () => {
+        writeStream.close();
+        callback(directory + filename);
       });
-    } else if (type == "http") {
-      http.get(url, (res) => {
-        const path = directory + filename;
-        const writeStream = fs.createWriteStream(path);
+    });
+  } else if (type == "http") {
+    http.get(options, (res) => {
+      const path = directory + filename;
+      const writeStream = fs.createWriteStream(path);
 
-        res.pipe(writeStream);
+      res.pipe(writeStream);
 
-        writeStream.on("finish", () => {
-          writeStream.close();
-          callback(directory + filename);
-        });
+      writeStream.on("finish", () => {
+        writeStream.close();
+        callback(directory + filename);
       });
-    }
+    });
   }
 }
 
 function launcherOptionsGenerator(version, versionType = "release", authCredetinals, minRam, maxRam, javaPath, forgePath) {
-  if(typeof version == "number"){
+  userConsoleLog("[LL]: Generating launcher options");
+  if (typeof version == "number") {
     version = version.toString();
   }
-  if (javaPath == "") {
+  if (javaPath == "" || javaPath == "default") {
     if (forgePath == "") {
       launcherOptions = {
         clientPackage: null,
@@ -62,7 +68,6 @@ function launcherOptionsGenerator(version, versionType = "release", authCredetin
           number: version,
           type: versionType
         },
-        javaPath: javaPath,
         memory: {
           max: maxRam + "M",
           min: minRam + "M",
@@ -80,7 +85,6 @@ function launcherOptionsGenerator(version, versionType = "release", authCredetin
           number: version,
           type: versionType
         },
-        javaPath: javaPath,
         forge: forgePath,
         memory: {
           max: maxRam + "M",
@@ -140,6 +144,26 @@ function launchMinecraft(launcherOptions) {
   return result;
 }
 
+function findAllJavaVersions() {
+  userConsoleLog("[LL]: Searching Java versions in your system");
+  directories = ["C:/Program Files", "C:/Program Files(x86)", "C:/Program Files (x86)"]
+  tree = ["Java", "JDK", "OpenJDK", "OpenJRE", "Adoptium", "JRE", "AdoptiumJRE", "Temurin"];
+  javas = [];
+  directories.forEach(function (mainDir) {
+    tree.forEach(function (inner) {
+      directory = mainDir + "/" + inner;
+      if (fs.existsSync(directory)) {
+        fs.readdirSync(directory).forEach(function (jvs) {
+          if (fs.existsSync(directory + "/" + jvs + "/bin/java.exe")) {
+            javas.push(directory + "/" + jvs + "/bin/java.exe");
+          }
+        });
+      }
+    });
+  });
+  return javas;
+}
+
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
@@ -156,6 +180,7 @@ function destroyTheme() {
 }
 
 function reloadThemeFromDB() {
+  userConsoleLog("[LL]: Reloading theme");
   db.get('theme__bgType', function (err, vallue) {
     if (err) {
       if (err.name == "NotFoundError") {

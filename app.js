@@ -13,6 +13,10 @@ var f_log = "";
 var winConsole;
 const version = "v1.0.0";
 var sm = false;
+const os = require("os");
+const getIP = require('external-ip')();
+const errorHandler = require('./my_modules/error_handler');
+var MD5 = require("crypto-js/md5");
 
 const {
   Client,
@@ -33,12 +37,12 @@ function createWindow() {
   win = new BrowserWindow({
     width: 1024,
     height: 600,
+    minWidth: 1024,
+    minHeight: 600,
     hasShadow: true,
-    resizable: false,
-    maximizable: false,
+    resizable: true,
+    maximizable: true,
     autoHideMenuBar: true,
-    frame: false,
-    transparent: true,
     webPreferences: {
       preload: path.join(__dirname, 'web/preload.js'),
       nodeIntegration: true,
@@ -80,9 +84,37 @@ ipcMain.on('closeApp', (event) => {
   event.returnValue = true;
 });
 
-ipcMain.on('userConsoleLog', (event) => {
-  userConsoleLog(event);
+ipcMain.on('userConsoleLog', (event, arg) => {
+  userConsoleLog(arg);
   event.returnValue = true;
+});
+
+ipcMain.on("collectAllStats", (event) => {
+  cp = os.cpus();
+  uniqueid = os.version + "925_" + cp[0].model + cp[1].speed + Math.round(os.totalmem() / 1024 / 1024);
+  uniqueid = MD5(uniqueid).toString();
+
+  let pform = {
+    name: os.type(),
+    release: os.release(),
+    arch: process.arch,
+    version: os.version()
+  }
+
+  let cpu = {
+    model: cp[0].model,
+    speed: cp[0].speed,
+    cores: cp.length
+  }
+
+  statss = {
+    platform: pform,
+    totalmem: Math.round(os.totalmem() / 1024 / 1024),
+    cpu: cpu,
+    unique_id: uniqueid
+  }
+
+  win.webContents.send("collectedStats", statss);
 });
 
 ipcMain.on('hideApp', (event) => {
@@ -133,7 +165,6 @@ ipcMain.on("launcherVersion", function (event) {
 
 app.whenReady().then(() => {
   createWindow();
-  createConsoleWindow();
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
@@ -158,13 +189,40 @@ launcher.on('data', function (e) {
     win.webContents.send("downloadProgress", b);
   }
   userConsoleLog(e);
-  if (e.toString().search("java.lang.ClassCastException: class jdk.internal.loader") != -1) {
-    win.webContents.send("showError", {
-      title: "Ошибка запуска",
-      message: "Произошла ошибка запуска! Возможная причина - неподходящая версия JAVA для запуска данной версии!<br>Подробная информация в консоли",
-      button: "Окей"
-    });
-    sm = true;
+  err = errorHandler.handleError(e);
+  switch (err) {
+    case "JAVA_INCOMPATIBLE":
+      win.webContents.send("showError", {
+        title: "Ошибка запуска",
+        message: "Неподходящая версия JAVA для запуска данной версии!<br>Подробная информация в консоли",
+        button: "Окей"
+      });
+      sm = true;
+      break;
+    case "JAVA_ERROR_ManifestEntryVerifier":
+      win.webContents.send("showError", {
+        title: "Ошибка запуска",
+        message: "Несовместимость версий JAVA и Forge!<br>Подробная информация в консоли",
+        button: "Окей"
+      });
+      sm = true;
+      break;
+    case "JAVA_ERROR_UnsupportedClassVersion":
+      win.webContents.send("showError", {
+        title: "Ошибка запуска",
+        message: "У вас слишком старая версия JAVA<br>Подробная информация в консоли",
+        button: "Окей"
+      });
+      sm = true;
+      break;
+    case "JAVA_ERROR_ReserveSpace":
+      win.webContents.send("showError", {
+        title: "Ошибка запуска",
+        message: "Не удалось выделить необходимое количество памяти для выполения JAVA<br>Подробная информация в консоли",
+        button: "Окей"
+      });
+      sm = true;
+      break;s
   }
 });
 

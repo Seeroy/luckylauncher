@@ -13,6 +13,7 @@
   <script src="js/vanta/vanta.birds.min.js"></script>
   <script src="js/vanta/vanta.net.min.js"></script>
   <script src="js/vanta/vanta.dots.min.js"></script>
+  <script src="js/my_func.js"></script>
 </head>
 
 <body>
@@ -75,7 +76,8 @@
       </div>
     </div>
     <div class="col-md-8">
-      <button class="btn btn-light">Сообщить об ошибке</button>
+      <button class="btn btn-light" data-mdb-toggle="modal" data-mdb-target="#sendMessageModal">Сообщить об
+        ошибке</button>
       <!--<img class="animate__animated animate__slideInUp" src="assets/right-image.png">
       <canvas id="right-canvas" width=683 height=600></canvas>-->
       <img class="animate__animated animate__slideInRight" id="margin-center-image" height="70%"
@@ -100,10 +102,33 @@
 
   <div class="hideAllBg" style="display: none;"></div>
 
-  <div class="task-buttons">
-    <div class="h-100 d-inline-flex align-items-center">
-      <span class="material-icons" id="hideApp">remove</span>
-      <span class="material-icons" id="closeApp">close</span>
+
+  <div class="modal top fade" id="sendMessageModal" tabindex="-1" aria-labelledby=sendMessageModalLabel"
+    aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
+    <div class="modal-dialog modal-lg  modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="sendMessageModalLabel">Отправить сообщение об ошибке</h5>
+          <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" id="usernameSend" placeholder="Никнейм" aria-label="Никнейм" />
+          </div>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" id="realnameSend" placeholder="Реальное имя" aria-label="Реальное имя" />
+          </div>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" id="messageSendArea" placeholder="Сообщение" aria-label="Сообщение" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-mdb-dismiss="modal">
+            Закрыть
+          </button>
+          <button type="button" class="btn btn-dark" data-mdb-dismiss="modal" onclick="sendAboutError()">Отправить</button>
+        </div>
+      </div>
     </div>
   </div>
 </body>
@@ -116,6 +141,33 @@
   const {
     ipcRenderer
   } = require('electron');
+
+  $("#usernameSend,#realnameSend,#messageSendArea").on("keypress", function (e) {
+    var val = $(this).val();
+    var regex = /(<([^>]+)>)/ig;
+    var result = val.replace(regex, "");
+    $(this).val(result);
+  });
+
+  function sendAboutError() {
+    nickname = $("#usernameSend").val();
+    realname = $("#realnameSend").val();
+    message = $("#messageSendArea").val();
+    require('electron').ipcRenderer.send("collectAllStats");
+    require('electron').ipcRenderer.once("collectedStats", function (e, stats) {
+      javaVersions = findAllJavaVersions();
+      stats["javas"] = javaVersions;
+      let data = {
+        nickname: nickname,
+        realname: realname,
+        message: message,
+        stats: stats
+      }
+      $.get("http://m91237kd.beget.tech/send_error.php?data=" + encodeURI(JSON.stringify(data)));
+      $("#sendMessageModal").hide();
+      userConsoleLog("[LL]: Sended error report");
+    });
+  }
 
   function showMessage(title, text, buttonText, backgroundColor = "white", textWhite = false) {
     $(".msg-card .card-header").html(title);
@@ -146,6 +198,7 @@
       ipcRenderer.send("hideApp", "");
     });
 
+    userConsoleLog("[LL]: Preparing database");
     db.get('loginpage__currentTab', function (err, value) {
       if (err) {
         if (err.name == "NotFoundError") {
@@ -167,18 +220,18 @@
     db.get('gameSettings__minMemory', function (err, value) {
       if (err) {
         if (err.name == "NotFoundError") {
-          totalRAMx4 = require('os').totalmem();
-          totalRAMx4 = Math.round((totalRAMx4 / (1024 * 1024)) / 4);
-          db.put("gameSettings__minMemory", totalRAMx4);
+          db.put("gameSettings__minMemory", 512);
         }
       }
     });
 
-    db.get('gameSettings__javaPath', function (err, value) {
+    db.get('gameSettings__java', function (err, value) {
       if (err) {
         if (err.name == "NotFoundError") {
-          db.put("gameSettings__javaPath", "");
+          db.put("gameSettings__java", "default");
         }
+      } else {
+        console.log(value);
       }
     });
 
@@ -274,7 +327,7 @@
         });
       });
 
-      /* Mojang form processing */
+      // Mojang form processing
       $("#mojang-passwd-eye").click(function () {
         if ($("#mojang-passwd-input")[0].type == "password") {
           $("#mojang-passwd-input")[0].type = "text";
@@ -291,11 +344,13 @@
 
       $("#mojang-submit-button").click(function () {
         submit__mojang();
+        userConsoleLog("[LL]: Submitting Mojang auth");
       });
 
-      /* Pirate auth processing */
+      // Pirate auth processing
       $("#pirate-submit-button").click(function () {
         submit__pirate();
+        userConsoleLog("[LL]: Submitting Pirate auth");
       });
     });
   });
