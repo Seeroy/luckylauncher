@@ -11,7 +11,7 @@ var win;
 var mcprocess;
 var f_log = "";
 var winConsole;
-const version = "v1.0.0";
+const version = "1.0.0";
 var sm = false;
 const os = require("os");
 const getIP = require('external-ip')();
@@ -40,6 +40,7 @@ function createWindow() {
     minWidth: 1024,
     minHeight: 600,
     hasShadow: true,
+    icon: "luckylauncher_logo.ico",
     resizable: true,
     maximizable: true,
     autoHideMenuBar: true,
@@ -64,6 +65,7 @@ function createConsoleWindow() {
     hasShadow: true,
     resizable: true,
     maximizable: true,
+    icon: "luckylauncher_logo.ico",
     webPreferences: {
       preload: path.join(__dirname, 'web/preload.js'),
       nodeIntegration: true,

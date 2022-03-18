@@ -130,7 +130,8 @@
       </div>
     </div>
   </div>
-  <div class="bottom-content animate__animated animate__fadeInUp animate__delay-1s" style="background: rgba(255,255,255,0.8);">
+  <div class="bottom-content animate__animated animate__fadeInUp animate__delay-1s"
+    style="background: rgba(255,255,255,0.8);">
     <div class="h-100 w-100 d-inline-flex justify-content-center align-items-center">
       <div class="flex-fill">
         <div class="btn-group mb-2 dropup" style="margin: 0 !important;">
@@ -384,27 +385,28 @@
         $("#internetConnectionError").show();
       }
     });
-    $.get("http://m91237kd.beget.tech/db/servers.json", function(servers){
+    $.get("http://m91237kd.beget.tech/db/servers.json", function (servers) {
       userConsoleLog("[LL]: Loaded servers from http://m91237kd.beget.tech/db/servers.json");
-      servers.forEach(function (serv){
+      servers.forEach(function (serv) {
         $(".mpl-servers ul").append('<li class="list-group-item">' + serv + '</li>');
       });
     });
     $.get("https://api.github.com/repos/Seeroy/luckylauncher/releases", function (upd) {
       userConsoleLog("[LL]: Checking for updates");
       if (typeof upd[0] !== "undefined") {
-        last_upd = upd[0];
         myversion = require('electron').ipcRenderer.sendSync("launcherVersion");
-        if (last_upd.tag_name != myversion) {
-          userConsoleLog("[LL]: Found update: " + upd[2].tag_name);
-          showMessage("Обновление " + upd[2].tag_name,
+        if (upd[0].tag_name != myversion) {
+          userConsoleLog("[LL]: Found update: " + upd[0].tag_name);
+          showMessage("Обновление " + upd[0].tag_name,
             "<p style='color: gray;''>Доступно обновление до версии " +
-            upd[2].tag_name + "</p><a href='#' class='text-decoration-none' onclick=openn('" + upd[2].assets[
+            upd[0].tag_name + "</p><a href='#' class='text-decoration-none' onclick=openn('" + upd[0].assets[
               0]
             .browser_download_url + "')>Перейти</a>", "Спасибо");
         } else {
           userConsoleLog("[LL]: No updates found");
         }
+      } else {
+        userConsoleLog("[LL]: No updates found");
       }
     });
     $.get("http://m91237kd.beget.tech/db/news.json", function (news) {
