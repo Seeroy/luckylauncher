@@ -18,6 +18,10 @@
             <a class="nav-link" id="ex3-tab-2" data-mdb-toggle="tab" href="#ex3-tabs-2" role="tab"
               aria-controls="ex3-tabs-2" aria-selected="false">Персонализация</a>
           </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="ex3-tab-3" data-mdb-toggle="tab" href="#ex3-tabs-3" role="tab"
+              aria-controls="ex3-tabs-3" aria-selected="false">О программе</a>
+          </li>
         </ul>
         <!-- Tabs navs -->
 
@@ -69,6 +73,14 @@
               </div>
             </div>
           </div>
+          <div class="tab-pane fade" id="ex3-tabs-3" role="tabpanel" aria-labelledby="ex3-tab-3"
+            style="overflow: auto;">
+            <div class="d-flex justify-content-center align-items-center flex-column w-100">
+              <div><img src="assets/luckylauncher_logo.png" width=128></div>
+              <div class="fs-1 fw-bold" style="margin-top: 4px;">LuckyLauncher</div>
+              <div style="margin-top: 4px;" class="version"></div>
+            </div>
+          </div>
         </div>
         <!-- Tabs content -->
       </div>
@@ -93,6 +105,8 @@
       </li>
       <li title="Сообщить об ошибке" class="non-eventable" data-mdb-toggle="modal" data-mdb-target="#sendMessageModal">
         <span class="material-icons">announcement</span></li>
+      <li title="Сообщить об ошибке" class="non-eventable" onclick='shell.openPath(path.resolve("./minecraft"))'>
+        <span class="material-icons">folder</span></li>
     </ul>
     <div class="usernav-cont">
       <div class="btn-group mb-2 dropup">
@@ -147,7 +161,7 @@
     </div>
     <div class="ms-c" style="display: none;">
       <div class="mc-icon"><img src="assets/blocks/gold_ore_big.webp" height=64></div>
-      <div class="mc-name fs-3">Minecraft 1.7.10</div>
+      <div class="mc-name fs-3"></div>
       <div class="mc-desc"><span></span>
         <div class="progress">
           <div id="downloadpbar" class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0"
@@ -156,7 +170,7 @@
       </div>
       <div class="mc-others">
         <div class="d-inline-flex justify-content-center align-items-center">
-          <button class="btn btn-danger">Убить игру</button>
+          <!--<button class="btn btn-danger">Убить игру</button>-->
         </div>
       </div>
     </div>
@@ -310,6 +324,9 @@
   const http = require("http");
   var glob = require("glob");
   const path = require("path");
+  const {
+    shell
+  } = require('electron')
 
   $.ajaxSetup({
     cache: false
@@ -391,6 +408,7 @@
         $(".mpl-servers ul").append('<li class="list-group-item">' + serv + '</li>');
       });
     });
+    $("#ex3-tabs-3 .version").html("Версия лаунчера: " + require('electron').ipcRenderer.sendSync("launcherVersion"));
     $.get("https://api.github.com/repos/Seeroy/luckylauncher/releases", function (upd) {
       userConsoleLog("[LL]: Checking for updates");
       if (typeof upd[0] !== "undefined") {

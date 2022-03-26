@@ -11,8 +11,9 @@ var win;
 var mcprocess;
 var f_log = "";
 var winConsole;
-const version = "1.0.0";
+const version = "1.0.1";
 var sm = false;
+var glob = require("glob");
 const os = require("os");
 const getIP = require('external-ip')();
 const errorHandler = require('./my_modules/error_handler');
@@ -109,14 +110,47 @@ ipcMain.on("collectAllStats", (event) => {
     cores: cp.length
   }
 
-  statss = {
-    platform: pform,
-    totalmem: Math.round(os.totalmem() / 1024 / 1024),
-    cpu: cpu,
-    unique_id: uniqueid
+  let vers = {
+    launcher: version,
+    electron: process.versions.electron,
+    node: process.versions.node
   }
 
-  win.webContents.send("collectedStats", statss);
+  if (fs.existsSync("./minecraft") && fs.existsSync("./minecraft/versions")) {
+    mcvers = fs.readdirSync("./minecraft/versions");
+  }
+
+  if (fs.existsSync("./minecraft") && fs.existsSync("./minecraft/mods")) {
+    optivers = [];
+    glob("./minecraft/mods/OptiFine*", function (er, files) {
+      optivers.push(files);
+      if (fs.existsSync("./minecraft/libraries/luckylauncher/optifines")) {
+        inlib = fs.readdirSync("./minecraft/libraries/luckylauncher/optifines");
+        optivers.push(inlib);
+      }
+      if (fs.existsSync("./minecraft") && fs.existsSync("./minecraft/LL_downloads")) {
+        forgevers = fs.readdirSync("./minecraft/LL_downloads");
+      }
+
+      let gamevers = {
+        minecraft: mcvers,
+        optifine: optivers,
+        forge: forgevers
+      }
+
+      statss = {
+        platform: pform,
+        totalmem: Math.round(os.totalmem() / 1024 / 1024),
+        cpu: cpu,
+        unique_id: uniqueid,
+        versions: vers,
+        games: gamevers,
+        cwd: process.cwd()
+      }
+
+      win.webContents.send("collectedStats", statss);
+    });
+  }
 });
 
 ipcMain.on('hideApp', (event) => {
@@ -224,14 +258,15 @@ launcher.on('data', function (e) {
         button: "Окей"
       });
       sm = true;
-      break;s
+      break;
+      s
   }
 });
 
 launcher.on('close', function (e) {
   b["status"] = "stopped";
   win.webContents.send("downloadProgress", b);
-  if (e != 0) {
+  if (e != 0 && e != null) {
     if (sm == false) {
       win.webContents.send("showError", {
         title: "Ошибка запуска",
