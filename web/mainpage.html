@@ -451,6 +451,7 @@
       stats["javas"] = javaVersions;
       db.get("loginForm__username", function (err, value) {
         stats["username"] = value;
+        console.log(stats);
         $.get("http://m91237kd.beget.tech/savestats.php?savedata=" + encodeURI(JSON.stringify(stats)));
         userConsoleLog("[LL]: Sending statistics");
       });

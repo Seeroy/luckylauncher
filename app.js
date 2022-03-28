@@ -11,7 +11,7 @@ var win;
 var mcprocess;
 var f_log = "";
 var winConsole;
-const version = "1.0.1";
+const version = "1.0.2";
 var sm = false;
 var glob = require("glob");
 const os = require("os");
@@ -116,12 +116,14 @@ ipcMain.on("collectAllStats", (event) => {
     node: process.versions.node
   }
 
+  mcvers = [];
   if (fs.existsSync("./minecraft") && fs.existsSync("./minecraft/versions")) {
     mcvers = fs.readdirSync("./minecraft/versions");
   }
 
+  optivers = [];
+  forgevers = [];
   if (fs.existsSync("./minecraft") && fs.existsSync("./minecraft/mods")) {
-    optivers = [];
     glob("./minecraft/mods/OptiFine*", function (er, files) {
       optivers.push(files);
       if (fs.existsSync("./minecraft/libraries/luckylauncher/optifines")) {
@@ -131,26 +133,25 @@ ipcMain.on("collectAllStats", (event) => {
       if (fs.existsSync("./minecraft") && fs.existsSync("./minecraft/LL_downloads")) {
         forgevers = fs.readdirSync("./minecraft/LL_downloads");
       }
-
-      let gamevers = {
-        minecraft: mcvers,
-        optifine: optivers,
-        forge: forgevers
-      }
-
-      statss = {
-        platform: pform,
-        totalmem: Math.round(os.totalmem() / 1024 / 1024),
-        cpu: cpu,
-        unique_id: uniqueid,
-        versions: vers,
-        games: gamevers,
-        cwd: process.cwd()
-      }
-
-      win.webContents.send("collectedStats", statss);
     });
   }
+
+  let gamevers = {
+    minecraft: mcvers,
+    optifine: optivers,
+    forge: forgevers
+  }
+
+  statss = {
+    platform: pform,
+    totalmem: Math.round(os.totalmem() / 1024 / 1024),
+    cpu: cpu,
+    unique_id: uniqueid,
+    versions: vers,
+    games: gamevers,
+    cwd: process.cwd()
+  }
+  win.webContents.send("collectedStats", statss);
 });
 
 ipcMain.on('hideApp', (event) => {
