@@ -22,15 +22,11 @@ Tested, working:
  - Forge 1.15.2
  - Forge 1.16.1
  - Forge 1.16.2
+ - Forge 1.16.5
  - Forge 1.17.1
  - Forge 1.18
  - Forge 1.18.1
  - Forge 1.18.2
-
-Tested, not working:
- - Forge 1.7.2 (works only with Java 7)
- - Forge 1.12.2 (TypeError: json.mavenFiles is not iterable, closing...)
- - Forge 1.16.5 (java.lang.NoSuchMethodError: sun.security.util.ManifestEntryVerifier)
 
 Other versions not tested
 
